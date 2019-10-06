@@ -19,41 +19,34 @@ import java.util.logging.Logger;
  */
 public class DistanceMatrixLoader {
 
-    private String fileName;
+    private final String fileName;
 
     public DistanceMatrixLoader(String fileName) {
         this.fileName = fileName;
     }
 
-    public DistanceMatrix load() {
-        try {
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            
-            String header = br.readLine();
-            String[] tokens = header.split(";");
-            int locations = tokens.length-1;
-            
-            String[] locationss = Arrays.copyOfRange(tokens, 1, tokens.length);
-            double[][] dista = new double[locations][locations];
-            
-            for (int i = 0; i < locations; i++) {
-                String l = br.readLine();
-                String[] tokens2 = l.split(";");
-                
-                for (int j = 1; j < tokens2.length; j++) {
-                    double val = Double.parseDouble(tokens2[j]);
-                    
-                    dista[i][j-1] = val; 
-                }
-                
+    public DistanceMatrix load() throws FileNotFoundException, IOException {
+
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferReader = new BufferedReader(fileReader);
+
+            String header = bufferReader.readLine();
+            String[] distanceTokens = header.split(";");
+            int matrixSize = distanceTokens.length - 1;
+
+            String[] locations = Arrays.copyOfRange(distanceTokens, 1, distanceTokens.length);
+            double[][] distances = new double[matrixSize][matrixSize];
+
+            for (int i = 0; i < matrixSize; i++) {
+                String line = bufferReader.readLine();
+                //removes location from line leaving only distances
+                line = line.substring(line.indexOf(";") + 1);
+                String[] locationTokens = line.split(";");
+                distances[i] = Arrays.stream(locationTokens)
+                        .mapToDouble(Double::parseDouble)
+                        .toArray();
             }
-            
-            return new DistanceMatrix(locationss, dista);
-        } catch (FileNotFoundException ex) {
-        } catch (IOException ex) {
-        }
-        
-        return null;
+
+            return new DistanceMatrix(locations, distances);
     }
 }
