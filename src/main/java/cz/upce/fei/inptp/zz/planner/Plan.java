@@ -20,10 +20,14 @@ public class Plan {
     public PlanItem addNewVehiclePlan(Vehicle vehicle, Driver driver) {
         PlanItem newplan = new PlanItem(vehicle, driver);
         
+        for (PlanItem item : plan) {
+            if(item.getDriver().equals(driver)
+                    && item.getVehicle().equals(vehicle)){
+                return newplan;
+            }
+        }
         plan.add(newplan);
-        // TODO: check duplicity of vehicle/driver in plan
-        
+                
         return newplan;
     }
-    
 }

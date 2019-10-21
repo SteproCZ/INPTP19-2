@@ -37,4 +37,33 @@ public class Vehicle {
     public VehicleType getType() {
         return type;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Vehicle other = (Vehicle) obj;
+        if (!Objects.equals(this.identifier, other.identifier)) {
+            return false;
+        }
+        if (this.capacity != other.capacity) {
+            return false;
+        }
+        if (this.type != other.type) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
