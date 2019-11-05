@@ -32,11 +32,11 @@ public class PlanItemPriceCalculator {
             if (!currentLocation.equals(currentOrderLocation)) {
                 price += dm.getDistanceBetweenLocations(currentLocation, currentOrderLocation);
                 price *= planItem.getVehicle().getPricePerKilometer();
+                double coefficientCapacity = ((double)currentOrder.getCapacity()/planItem.getVehicle().getCapacity());
+                price = (int)Math.round(price + price * coefficientCapacity);
             }
-            
-            
+     
             // ... loading/unloading of order ...
-            // TODO: add coefficient for order price per capacity unit
 
         }
         
