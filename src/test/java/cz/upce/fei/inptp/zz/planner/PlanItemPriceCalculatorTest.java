@@ -1,23 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.upce.fei.inptp.zz.planner;
 
 import cz.upce.fei.inptp.zz.entity.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author SteproCZ
- */
 public class PlanItemPriceCalculatorTest {
-    
-    /**
-     * Test of calculatePrice method, of class PlanItemPriceCalculator.
-     */
+
+    private static final double epsilon = 0.01;
     
     private PlanItemPriceCalculator preparePlanItemPriceCalculator() {
         String[] locations = {"A", "B", "C", "D"};
@@ -39,11 +28,11 @@ public class PlanItemPriceCalculatorTest {
         PlanItem planItem = new PlanItem(vehicle, driver);
         
         double price = planItemPriceCalculator.calculatePrice(planItem);
-        assertEquals(0, price, 0.01);
+        assertEquals(0, price, epsilon);
     }
     
     @Test
-    public void testCalculatePrice1() {     
+    public void testCalculatePrice() {     
         PlanItemPriceCalculator planItemPriceCalculator = preparePlanItemPriceCalculator();
         Vehicle vehicle = new Vehicle("id", 4, VehicleType.Small,6);
         Driver driver = new Driver("driver");
@@ -51,7 +40,9 @@ public class PlanItemPriceCalculatorTest {
         planItem.addOrder(new Order("A", "C", 2));
         
         double price = planItemPriceCalculator.calculatePrice(planItem);
-        assertEquals(12, price, 0.01);
-    }
-    
+        double distance = 2;
+        double pricePerKilometer = 6;
+        double expectedValue = distance * pricePerKilometer;
+        assertEquals(expectedValue, price, epsilon);
+    }    
 }
