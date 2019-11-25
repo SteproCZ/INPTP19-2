@@ -2,6 +2,7 @@ package cz.upce.fei.inptp.zz.planner;
 
 import cz.upce.fei.inptp.zz.entity.DistanceMatrix;
 import cz.upce.fei.inptp.zz.entity.Order;
+import cz.upce.fei.inptp.zz.entity.Vehicle;
 import java.util.HashSet;
 import java.util.List;
 
@@ -12,7 +13,13 @@ public class PlanItemPriceCalculator {
     public PlanItemPriceCalculator(DistanceMatrix distanceMatrix) {
         this.distanceMatrix = distanceMatrix;
     }
-
+    
+    private double calculatePricePerMovedKilometers(String from, String to, Vehicle vehicle) {
+        double price = distanceMatrix.getDistanceBetweenLocations(from, to);
+        price *= vehicle.getPricePerKilometer();
+        return price;
+    }
+    
     public double calculatePrice(PlanItem planItem) {
         // TODO: tests
 
@@ -25,7 +32,7 @@ public class PlanItemPriceCalculator {
 
         String currentLocation = planItem.getVehicleStartingLocation();
         HashSet<Order> loadedOrders = new HashSet<>();
-        
+
         // TODO: order processing
         // - process orders in planItem's list order 
         // - respect and test vehicle capacity
@@ -35,18 +42,16 @@ public class PlanItemPriceCalculator {
         //     loaded capacity * price per load per unit (vehicle parameter) + 
         //     unloaded capacity * price per load per unit (vehicle parameter)
         // - all changes must be supported by tests to determine that algorithm is correct!
-        
-
         for (int i = 0; i < orders.size(); i++) {
             Order currentOrder = orders.get(i);
 
             boolean loading = !loadedOrders.contains(currentOrder);
             String currentOrderLocation = loading ? currentOrder.getFrom() : currentOrder.getTo();
-            
+
             if (!currentLocation.equals(currentOrderLocation)) {
-                price += distanceMatrix.getDistanceBetweenLocations(currentLocation, currentOrderLocation);
-                price *= planItem.getVehicle().getPricePerKilometer();
+                price += calculatePricePerMovedKilometers(currentLocation, currentOrderLocation, planItem.getVehicle());
             }
+            price += calculatePricePerMovedKilometers(currentOrder.getFrom(), currentOrder.getTo(), planItem.getVehicle());
 
             // ... loading/unloading of order ...
             // TODO: add coefficient for order price per capacity unit
