@@ -1,8 +1,8 @@
-package cz.upce.fei.inptp.zz.planner;
+package cz.upce.fei.inptp.project.planner;
 
-import cz.upce.fei.inptp.zz.entity.DistanceMatrix;
-import cz.upce.fei.inptp.zz.entity.Order;
-import cz.upce.fei.inptp.zz.entity.Vehicle;
+import cz.upce.fei.inptp.project.entity.Order;
+import cz.upce.fei.inptp.project.entity.matrix.DistanceMatrix;
+import cz.upce.fei.inptp.project.entity.vehicle.Vehicle;
 import java.util.HashSet;
 import java.util.List;
 
@@ -42,8 +42,7 @@ public class PlanItemPriceCalculator {
         //     loaded capacity * price per load per unit (vehicle parameter) + 
         //     unloaded capacity * price per load per unit (vehicle parameter)
         // - all changes must be supported by tests to determine that algorithm is correct!
-        for (int i = 0; i < orders.size(); i++) {
-            Order currentOrder = orders.get(i);
+        for (Order currentOrder : orders) {
 
             boolean loading = !loadedOrders.contains(currentOrder);
             String currentOrderLocation = loading ? currentOrder.getFrom() : currentOrder.getTo();
