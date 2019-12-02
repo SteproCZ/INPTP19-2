@@ -1,6 +1,9 @@
-package cz.upce.fei.inptp.zz.planner;
+package cz.upce.fei.inptp.project.planner;
 
-import cz.upce.fei.inptp.zz.entity.*;
+import cz.upce.fei.inptp.project.entity.Driver;
+import cz.upce.fei.inptp.project.entity.Order;
+import cz.upce.fei.inptp.project.entity.vehicle.*;
+import cz.upce.fei.inptp.project.entity.matrix.DistanceMatrix;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
