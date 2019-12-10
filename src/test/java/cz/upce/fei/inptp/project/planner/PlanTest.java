@@ -1,8 +1,8 @@
-package cz.upce.fei.inptp.zz.planner;
+package cz.upce.fei.inptp.project.planner;
 
-import cz.upce.fei.inptp.zz.entity.Driver;
-import cz.upce.fei.inptp.zz.entity.Vehicle;
-import cz.upce.fei.inptp.zz.entity.VehicleType;
+import cz.upce.fei.inptp.project.entity.Driver;
+import cz.upce.fei.inptp.project.entity.vehicle.Vehicle;
+import cz.upce.fei.inptp.project.entity.vehicle.VehicleType;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -12,7 +12,7 @@ public class PlanTest {
     @Test
     public void testGetPlanEmpty() {
         Plan plan = new Plan();
-        List<PlanItem> planItems = plan.getPlan();
+        List<PlanItem> planItems = plan.getPlanItems();
         assertEquals(0, planItems.size());
     }
 
@@ -23,7 +23,7 @@ public class PlanTest {
         
         Plan plan = new Plan();
         plan.addNewVehiclePlan(vehicle, driver, "unknownLocation");
-        List<PlanItem> planItems = plan.getPlan();
+        List<PlanItem> planItems = plan.getPlanItems();
         assertEquals(1, planItems.size());
     }
 
